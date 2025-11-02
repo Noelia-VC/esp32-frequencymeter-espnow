@@ -1,17 +1,15 @@
 /*
-
+    main.c (ESP-IDF v5.0.x)
+ *
     FREQUENCY METER USING ESP32-C3 AND ESP-NOW COMMUNICATION
     This code configures an ESP32-C3 to measure frequency on a specified GPIO pin
     using Pulse Counting and General Purpose Timer. The measured frequency is sent
     to another ESP32-C3 device via ESP-NOW protocol: INICIATOR-RESPONDER.
-
 */
 
 /*
     Frequency Measurement Libraries
  */
-
-
 #include "driver/pulse_cnt.h"     // Pulse Counter driver (pcnt_*) - REQUIRED for pulse counting APIs
 #include "hal/pcnt_types.h"       // PCNT HAL types (may be redundant with driver header on some IDF versions)
 #include "driver/gptimer.h"       // GPTimer driver (gptimer_*) - REQUIRED for high-resolution timer
@@ -19,8 +17,6 @@
 /*
     WiFi and ESP-NOW Libraries
 */
-
-
 #include "esp_now.h"              // ESP-NOW protocol functions
 #include "esp_wifi.h"             // WiFi functions
 #include "esp_netif.h"            // Network interface functions
@@ -45,7 +41,6 @@
 /*
     Definitions of constants and macros
 */
-
 #define ESP_CHANNEL 1              // WiFi channel for ESP-NOW communication
 #define COUNT_UNIT_L_LIM -32767    // Lower limit for pulse counter (16-bit signed max negative value)
 #define COUNT_UNIT_H_LIM 32767     // Upper limit for pulse counter (16-bit signed max positive value)
@@ -78,13 +73,13 @@ static esp_err_t init_wifi(void)
 */
 void recv_cb(const esp_now_recv_info_t *esp_now_info, const uint8_t *data, int data_len) {  }
 
-/* Callback function for ESP-NOW send status - currently empty as we don't need send confirmations,
-    needd in the first connection with the peer device
+/* Callback function for ESP-NOW send status - currently empty as we don't need to send confirmations,
+    needed in the first connection with the peer device
 */
 void send_cb(const uint8_t *mac_addr, esp_now_send_status_t status) {  }
 
 /*
-    INITIALIZE ESP-NOW PROTOCOL
+    INITIALIZE ESP-NOW PROTOCOL AND REGISTER CALLBACKS
  */
 static esp_err_t init_esp_now(void)
 {
@@ -122,7 +117,6 @@ static esp_err_t esp_now_send_data(const uint8_t *peer_addr, const uint8_t *data
 
     return ESP_OK;
 }
-
 
 /*
     MAIN APPLICATION:
